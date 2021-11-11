@@ -64,7 +64,7 @@
 <div class="section">
   <p style="text-align: center"><img src="/assets/logo.png" alt="BCHCCLogo"></p>
   
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="/?lang=en"><span class="tag is-white">English</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="/?lang=cn"><span class="tag is-white">中文</span></a></p>
 
@@ -157,13 +157,13 @@
 // The smart contract CrossChainTransfer's deployed address
 const CCTransAddress = "0x1C00b18A71802d13D93C76Be60B716099CC06C55"
 // The incoming account's address on BCH main chain
-const IncomeAddrOnBCH = "bitcoincash:qz60h0pvlr3jlqzggwwjqkvqk7xtxl6kgy3dl6eps9"
+const IncomeAddrOnBCH = "bitcoincash:qr4a32h23yw8k9ux5qdvurezg4s8vtsh8y7thvyc7a"
 // The outgoing account's address on BCH main chain
-const PoolAddrOnBCH = "bitcoincash:qrvsgv8j5ed2fdfxwxk7d895uqw373j8fcmzqtcwzt"
+const PoolAddrOnBCH = "bitcoincash:qz4kkcahegwcsch9l9jetlrxvs00axcj5gacqkrn9v"
 // The incoming account's address on smartBCH side chain
 const IncomeAddrOnSmartBCH = "0x1c4DCD2153Eb0f5267CB2511D327B39800E7197b"
 // The outgoing account's address on smartBCH side chain
-const PoolAddrOnSmartBCH = "0xA3f4C7404862DbAc5249b836938daD9849ab91ce"
+const PoolAddrOnSmartBCH = "0x464e3065c99D520dBB1B7e73Ec4E2AB31c30CF69"
 
 // To show the hopInDiv, we need to show PoolAddrOnSmartBCH's balance and initialize the hop-wallet
 async function showHopIn() {
@@ -232,7 +232,7 @@ async function initHopWallet() {
 	// hop-wallet will watch the incoming coins inside the hopInRefresh function
 	window.FromBlock = await provider.getBlockNumber();
         clearInterval(window.hopInRefreshTimer);
-        window.hopInRrefreshTimer = setInterval(hopInRefresh, 6000);
+        window.hopInRrefreshTimer = setInterval(hopInRefresh, 10*1000);
 }
 
 function makeBchTxLink(txId) {
@@ -447,7 +447,7 @@ async function smartBCH_to_BCH() {
 
 	// Watch the balance of recipientWallet in the "hopOutRefresh" function
         clearInterval(window.hopOutRefreshTimer);
-        window.hopOutRefreshTimer = setInterval(hopOutRefresh, 6000);
+        window.hopOutRefreshTimer = setInterval(hopOutRefresh, 10*1000);
 }
 
 // If the balance of recipientWallet changes, add notification into the "outProgress" div
