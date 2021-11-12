@@ -180,6 +180,7 @@ async function showHopIn() {
         clearInterval(window.smartbchPoolTimer);
 	window.smartbchPoolTimer = setInterval(updatePoolBalance, 12000);
 
+	document.getElementById("hopInDiv").style.display = "block";
 	if(!window.hopwallet) {
 		try {
 			await initHopWallet();
@@ -187,7 +188,6 @@ async function showHopIn() {
 			myAlert("ERROR: "+JSON.stringify(e));
 		}
 	}
-	document.getElementById("hopInDiv").style.display = "block";
 }
 
 // To show the hopOutDiv, we need to show PoolAddrOnBCH's balance and the used address table
