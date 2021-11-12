@@ -392,16 +392,16 @@ async function smartBCH_to_BCH() {
 	const provider = new ethers.providers.Web3Provider(window.ethereum);
 	const signer = provider.getSigner();
 	const balance256 = await provider.getBalance(await signer.getAddress())
-	const balance = ethers.utils.formatUnits(balance256)
-	var amount = document.getElementById("amount").value
+	const balance = ethers.utils.formatUnits(balance256) * 1.0
+	var amount = document.getElementById("amount").value * 1.0
 	if(amount.length == 0 || amount <= 0) {
 		myAlert(T("Please enter valid transfer amount//请输入有效的传输金额"));
 		return;
 	}
-	const amount256 = ethers.utils.parseUnits(amount)
-	const poolBalance = document.getElementById("bchPoolBalance").innerText
+	const amount256 = ethers.utils.parseUnits(amount.toString())
+	const poolBalance = document.getElementById("bchPoolBalance").innerText * 1.0
 	if(poolBalance < amount) {
-		myAlert(T(`The coins in pool are not enough for this transfer.//资金池中的BCH不足以完成本次传输。`));
+		myAlert(T(`The coins in pool are not enough for this transfer. ${poolBalance} < ${amount} //资金池中的BCH不足以完成本次传输。${poolBalance} < ${amount} `));
 		return;
 	}
 	if(balance < amount + 0.00005/*estimated gas fee*/) {
