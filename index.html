@@ -200,7 +200,7 @@ async function showHopIn() {
 			myAlert("ERROR: "+JSON.stringify(e));
 		}
 	}
-	document.getElementById("hintCC").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+	document.getElementById("hintCC").scrollIntoView(true);
 }
 
 // To show the hopOutDiv, we need to show PoolAddrOnBCH's balance and the used address table
