@@ -181,9 +181,11 @@ async function showHopIn() {
 	window.smartbchPoolTimer = setInterval(updatePoolBalance, 12000);
 
 	if(!window.hopwallet) {
-		await initHopWallet();
-	} catch(e) {
-		myAlert("ERROR: "+JSON.stringify(e));
+		try {
+			await initHopWallet();
+		} catch(e) {
+			myAlert("ERROR: "+JSON.stringify(e));
+		}
 	}
 	document.getElementById("hopInDiv").style.display = "block";
 }
