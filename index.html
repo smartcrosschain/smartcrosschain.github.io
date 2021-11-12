@@ -328,7 +328,8 @@ function AddToDiv(divId, text, linkNode) {
 	node.appendChild(textNode);
 	node.appendChild(linkNode);
 	document.getElementById(divId).appendChild(node);
-	node = document.createElement("P");
+	textNode.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+	//node = document.createElement("P");
 	//node.innerHTML = "<br>"
 	//node.style.font = "6px"
 	//document.getElementById(divId).appendChild(node);
