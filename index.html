@@ -96,7 +96,7 @@
     <hr/>
     <center><b data-T>Pool Balance on smartBCH://smartBCH侧链资金池余额：</b><span id="smartbchPoolBalance"></span></center>
     <p style="font-size: 8px;">&nbsp;</p>
-    <p data-T>Please deposit main-chain BCH into your BCHCC-Wallet, using one of following address formats://请向您的BCHCC钱包里充值主链BCH，以下两种格式的地址供您选择：</p>
+    <p id="hintCC" data-T>Please deposit main-chain BCH into your BCHCC-Wallet, using one of following address formats://请向您的BCHCC钱包里充值主链BCH，以下两种格式的地址供您选择：</p>
     <p style="font-size: 8px;">&nbsp;</p>
     <p style="text-align: center;">
     <b>1.&nbsp;Legacy Address:</b><br><span data-T>(suitable for most exchanges)//（适合大多数交易所）</span><br>
@@ -163,7 +163,7 @@
     </div>
 </div>
 <p style="font-size: 8px;">&nbsp;</p>
-<hr>
+<hr id="bottom">
 <center><code><a target="_blank" href="https://t.me/bchcccash">https://t.me/bchcccash</a></code></center>
 <center><code><a target="_blank" href="https://brucelee.cash/2021/11/05/bchcc-cash-faq" data-T>FAQ //常见问题</a></code></center>
 <script type="text/javascript">
@@ -200,6 +200,7 @@ async function showHopIn() {
 			myAlert("ERROR: "+JSON.stringify(e));
 		}
 	}
+	document.getElementById("hintCC").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 }
 
 // To show the hopOutDiv, we need to show PoolAddrOnBCH's balance and the used address table
@@ -328,7 +329,8 @@ function AddToDiv(divId, text, linkNode) {
 	node.appendChild(textNode);
 	node.appendChild(linkNode);
 	document.getElementById(divId).appendChild(node);
-	textNode.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+	node.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+	document.getElementById("hintCC").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 	//node = document.createElement("P");
 	//node.innerHTML = "<br>"
 	//node.style.font = "6px"
