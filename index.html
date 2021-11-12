@@ -329,8 +329,7 @@ function AddToDiv(divId, text, linkNode) {
 	node.appendChild(textNode);
 	node.appendChild(linkNode);
 	document.getElementById(divId).appendChild(node);
-	node.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-	document.getElementById("hintCC").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+	document.getElementById("bottom").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 	//node = document.createElement("P");
 	//node.innerHTML = "<br>"
 	//node.style.font = "6px"
