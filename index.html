@@ -100,16 +100,28 @@
     <p style="font-size: 8px;">&nbsp;</p>
     <p style="text-align: center;">
     <b>1.&nbsp;Legacy Address:</b><br><span data-T>(suitable for most exchanges)//（适合大多数交易所）</span><br>
-      <code id="legacyAddr"></code><br>
-      <canvas id="legacyAddrQR"></canvas>
+      <code id="legacyAddr" style="color: black"></code><br>
     </p>
+    <table id="legacyAddrTable" style="display: none"><tr>
+	    <td><canvas id="legacyAddrQR"></canvas></td>
+	    <td style="color: red">
+	    <span data-T>Before the cross-chain transfer succeeds,//在跨链成功之前，</span><br>
+	    <span data-T>DO NOT close this page,//请勿关闭本页面，</span>
+	    <span data-T>or else the process may be interrupted.//否则可能中断跨链进程</span></td>
+    </tr></table>
     <p style="font-size: 8px;">&nbsp;</p>
     <p style="text-align: center;">
     <b>2.&nbsp;CashAddress:</b><br><span data-T>(suitable for most wallet apps)//（适合大多数钱包App）</span><br>
-      <code id="cashAddr"></code><br>
-      <canvas id="cashAddrQR"></canvas>
+      <code id="cashAddr" style="color: black"></code><br>
     </p>
-    <p data-T style="color: red; font-weight: bold">Please do not sign any message containing "[Grant-BCHCC-Wallet]" on other website to keep you your funds safe!//请勿在其他网站上签署包含“【授权BCHCC钱包】”字样的消息，以确保您的资金安全！</p>
+    <table id="cashAddrTable" style="display: none"><tr>
+	    <td><canvas id="cashAddrQR"></canvas>&nbsp;&nbsp;</td>
+	    <td style="color: red">
+	    <span data-T>Before the cross-chain transfer succeeds,//在跨链成功之前，</span><br>
+	    <span data-T>DO NOT close this page,//请勿关闭本页面，</span>
+	    <span data-T>or else the process may be interrupted.//否则可能中断跨链进程</span></td>
+    </tr></table>
+    <p data-T style="font-weight: bold">Please do not sign any message containing "[Grant-BCHCC-Wallet]" on other website to keep you your funds safe!//请勿在其他网站上签署包含“【授权BCHCC钱包】”字样的消息，以确保您的资金安全！</p>
     <p data-T>Your BCHCC-Wallet is continuously watched here, and once on-chain deposit makes its balance no less than 0.0002 BCH, these funds will be transferred to smartBCH automatically. //您的BCHCC钱包将在此被持续地监控，一旦链上充值使它的余额不小于0.0002 BCH，则这些资金将被自动传送至smartBCH。</p>
     <div id="inHistory">
       <center><button class="button is-info is-light is-small" onclick="showInHistoryList()" 
@@ -233,6 +245,8 @@ async function initHopWallet() {
 	document.getElementById("legacyAddr").innerText = legacyAddr;
 	new QRious({element: document.getElementById("cashAddrQR"), value: cashAddr});
 	new QRious({element: document.getElementById("legacyAddrQR"), value: legacyAddr});
+	document.getElementById("cashAddrTable").style.display = "block";
+	document.getElementById("legacyAddrTable").style.display = "block";
 
 	// hop-wallet will watch the incoming coins inside the hopInRefresh function
 	window.FromBlock = await provider.getBlockNumber();
@@ -301,6 +315,7 @@ async function showCCTransLogs(divId, provider, ccTargetAddr, fromBlock) {
 		fromBlock = h + 1;
 		const amount = ethers.utils.formatUnits(logs[i].data);
 		const text = T(`[Cross-chain 100% Finished] After deduct the cross-chain fee, ${amount} BCH were sent to your smartBCH account at height ${h}, in this transaction: //【跨链成功】扣除跨链手续费之后，${amount}个BCH被发送至您的smartBCH账户，区块高度${h}，交易ID：`);
+		window.FinishedCrossChainOnce = true;
 		AddToDiv(divId, text, makeSmartBchTxLink(logs[i].transactionHash));
 	}
 	return fromBlock;
@@ -475,6 +490,7 @@ async function hopOutRefresh() {
 	node.appendChild(textNode);
 	node.appendChild(linkNode);
 	document.getElementById("outProgress").appendChild(node);
+	window.FinishedCrossChainOnce = true;
 }
 
 async function connect() {
