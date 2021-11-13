@@ -183,6 +183,11 @@ async function showHopIn() {
 	document.getElementById("hopOutDiv").style.display = "none";
 
 	const provider = new ethers.providers.Web3Provider(window.ethereum);
+	const network = await provider.getNetwork();
+	if(network.chainId != 10000) {
+		myAlert(T("You are not in smartBCH network.//您连接的并非smartBCH链。"));
+		return
+	}
 	const signer = provider.getSigner();
 	var updatePoolBalance = async function() {
 		const balance256 = await provider.getBalance(PoolAddrOnSmartBCH);
@@ -420,7 +425,12 @@ async function smartBCH_to_BCH() {
 		return;
 	}
 	const amount256 = ethers.utils.parseUnits(amount.toString())
-	const poolBalance = document.getElementById("bchPoolBalance").innerText * 1.0
+	var poolBalance = document.getElementById("bchPoolBalance").innerText //as string
+	if(poolBalance.length == 0) {
+		myAlert(T("Cannot get the pool's balance on BCH main chain.//无法获取主链资金池的余额。"));
+		return;
+	}
+	poolBalance = poolBalance * 1.0 // as number
 	if(poolBalance < amount) {
 		myAlert(T(`The coins in pool are not enough for this transfer. ${poolBalance} < ${amount} //资金池中的BCH不足以完成本次传输。${poolBalance} < ${amount} `));
 		return;
