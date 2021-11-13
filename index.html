@@ -416,6 +416,11 @@ async function smartBCH_to_BCH() {
 	window.recipientAddr = bchaddr.toCashAddress(addr);
 
 	const provider = new ethers.providers.Web3Provider(window.ethereum);
+	const network = await provider.getNetwork();
+	if(network.chainId != 10000) {
+		myAlert(T("You are not in smartBCH network.//您连接的并非smartBCH链。"));
+		return
+	}
 	const signer = provider.getSigner();
 	const balance256 = await provider.getBalance(await signer.getAddress())
 	const balance = ethers.utils.formatUnits(balance256) * 1.0
