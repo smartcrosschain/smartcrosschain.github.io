@@ -308,9 +308,11 @@ async function showCCTransLogs(divId, provider, ccTargetAddr, fromBlock) {
 	const Transfer = ethers.utils.id("Transfer(address,address,uint256)");
 	const myAddrPad32 = ethers.utils.hexZeroPad(ccTargetAddr, 32);
 	const senderAddrPad32 = ethers.utils.hexZeroPad(PoolAddrOnSmartBCH, 32);
+	const senderAddrPad32_old = ethers.utils.hexZeroPad("0x464e3065c99D520dBB1B7e73Ec4E2AB31c30CF69", 32);
+	const senderAddrList = [senderAddrPad32, senderAddrPad32_old]
 	var tokenIdList = [];
 	const sep206Addr = "0x0000000000000000000000000000000000002711";
-	var filter = {address: sep206Addr, topics: [Transfer, senderAddrPad32, myAddrPad32/*receiver*/]};
+	var filter = {address: sep206Addr, topics: [Transfer, senderAddrList, myAddrPad32/*receiver*/]};
 	filter.toBlock = 10000*10000 // a very large value
 	filter.fromBlock = fromBlock;
 	var logs = await provider.getLogs(filter);
