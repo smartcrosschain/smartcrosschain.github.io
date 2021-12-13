@@ -70,7 +70,7 @@
 
   <p style="font-size: 8px;">&nbsp;</p>
   <p style="text-align: center"><button class="button is-small" onclick="addSmartBCH()" data-T>
-   	Add smartBCH to Wallet//将smartBCH加入钱包</button></p>
+   	switch to smartBCH network//切换到smartBCH链</button></p>
 
   <p style="font-size: 8px;">&nbsp;</p>
 
@@ -121,7 +121,7 @@
 	    <span data-T>Please DO reopen it,//请务必重新打开它，</span>
 	    <span data-T>or else the cross-chain process would be stuck at 50%//否则跨链进度会卡在50%无法继续</span></td>
     </tr></table>
-    <p data-T style="font-weight: bold">Please do not sign any message containing "[Grant-BCHCC-Wallet]" on other website to keep you your funds safe!//请勿在其他网站上签署包含“[Grant-BCHCC-Wallet]”字样的消息，以确保您的资金安全！</p>
+    <p data-T style="font-weight: bold">Please do not sign any message containing "[Grant-BCHCC-Wallet]" on other website to keep you your funds safe!//请勿在其他网站上签署包含“【授权BCHCC钱包】”字样的消息，以确保您的资金安全！</p>
     <p data-T>Your BCHCC-Wallet is continuously watched here, and once on-chain deposit makes its balance no less than 0.0002 BCH, these funds will be transferred to smartBCH automatically. //您的BCHCC钱包将在此被持续地监控，一旦链上充值使它的余额不小于0.0002 BCH，则这些资金将被自动传送至smartBCH。</p>
     <div id="inHistory">
       <center><button class="button is-info is-light is-small" onclick="showInHistoryList()" 
@@ -170,7 +170,7 @@
 // The smart contract CrossChainTransfer's deployed address
 const CCTransAddress = "0x1C00b18A71802d13D93C76Be60B716099CC06C55"
 // The incoming account's address on BCH main chain
-const IncomeAddrOnBCH = "bitcoincash:qr4a32h23yw8k9ux5qdvurezg4s8vtsh8y7thvyc7a"
+const IncomeAddrOnBCH = "bitcoincash:qql3r8nnm83lajt0xd9gevu0wqu4mezcfgdjxfgsvm"
 // The outgoing account's address on BCH main chain
 const PoolAddrOnBCH = "bitcoincash:qz4kkcahegwcsch9l9jetlrxvs00axcj5gacqkrn9v"
 // The incoming account's address on smartBCH side chain
@@ -237,7 +237,7 @@ async function initHopWallet() {
 	const provider = new ethers.providers.Web3Provider(window.ethereum);
 	const signer = provider.getSigner();
 	const myAddr = await signer.getAddress();
-	const signature = await signer.signMessage(`[Grant-BCHCC-Wallet]\n${myAddr}\nI hereby grant this website the permission to access my BCHCC-Wallet for above address.`);
+	const signature = await signer.signMessage(`[Grant-BCHCC-Wallet]【授权BCHCC钱包】\n${myAddr}\nI hereby grant this website the permission to access my BCHCC-Wallet for above address.\n我郑重授权此网站访问以上地址的BCHCC钱包。`);
 	var privKey = ethers.BigNumber.from(ethers.utils.sha256(signature));
 	const prime = ethers.BigNumber.from("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140");
 	privKey = privKey.mod(prime);
@@ -308,9 +308,11 @@ async function showCCTransLogs(divId, provider, ccTargetAddr, fromBlock) {
 	const Transfer = ethers.utils.id("Transfer(address,address,uint256)");
 	const myAddrPad32 = ethers.utils.hexZeroPad(ccTargetAddr, 32);
 	const senderAddrPad32 = ethers.utils.hexZeroPad(PoolAddrOnSmartBCH, 32);
+	const senderAddrPad32_old = ethers.utils.hexZeroPad("0x464e3065c99D520dBB1B7e73Ec4E2AB31c30CF69", 32);
+	const senderAddrList = [senderAddrPad32, senderAddrPad32_old]
 	var tokenIdList = [];
 	const sep206Addr = "0x0000000000000000000000000000000000002711";
-	var filter = {address: sep206Addr, topics: [Transfer, senderAddrPad32, myAddrPad32/*receiver*/]};
+	var filter = {address: sep206Addr, topics: [Transfer, senderAddrList, myAddrPad32/*receiver*/]};
 	filter.toBlock = 10000*10000 // a very large value
 	filter.fromBlock = fromBlock;
 	var logs = await provider.getLogs(filter);
